@@ -1,0 +1,149 @@
+/* ============ ESTILOS – Mis Gastos ============ */
+:root {
+  --verde: #0f766e;
+  --verde-claro: #ccfbf1;
+  --rojo: #b91c1c;
+  --rojo-claro: #fee2e2;
+  --naranja: #c2410c;
+  --gris: #6b7280;
+  --borde: #e5e7eb;
+  --fondo: #f8fafc;
+  --texto: #111827;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;   /* tipografía estándar */
+  background: var(--fondo);
+  color: var(--texto);
+  font-size: 16px;
+}
+
+.oculto { display: none !important; }
+
+/* ---------- Pantallas de inicio ---------- */
+.caja-centro {
+  max-width: 420px; margin: 0 auto; padding: 48px 20px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.caja-centro h1 { color: var(--verde); text-align: center; margin: 0 0 8px; }
+
+label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: var(--gris); }
+input, select {
+  font: inherit; color: var(--texto); padding: 12px; border: 1px solid var(--borde);
+  border-radius: 10px; background: #fff; width: 100%;
+}
+label.check { flex-direction: row; align-items: center; gap: 8px; }
+label.check input { width: auto; }
+
+.ayuda { color: var(--gris); font-size: 14px; margin: 4px 0 12px; }
+.error { color: var(--rojo); font-size: 14px; min-height: 1em; }
+
+/* ---------- Botones ---------- */
+button { font: inherit; cursor: pointer; }
+.btn-primario {
+  background: var(--verde); color: #fff; border: 0; border-radius: 10px; padding: 12px 16px; font-weight: bold;
+}
+.btn-primario.chico { padding: 12px 14px; }
+.btn-primario.ancho { width: 100%; margin-bottom: 12px; }
+.btn-secundario { background: #fff; border: 1px solid var(--borde); border-radius: 10px; padding: 12px 16px; }
+.btn-peligro { background: var(--rojo-claro); color: var(--rojo); border: 0; border-radius: 10px; padding: 12px 16px; margin-right: auto; }
+.btn-link { background: none; border: 0; color: var(--gris); text-decoration: underline; font-size: 14px; }
+.btn-icono { background: none; border: 0; color: #fff; font-size: 30px; width: 48px; height: 48px; }
+
+/* ---------- Barra superior ---------- */
+.barra {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--verde); color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: max(env(safe-area-inset-top), 4px) 8px 4px;
+}
+.barra h2 { margin: 0; font-size: 18px; text-transform: capitalize; }
+
+main { padding: 16px 16px 96px; max-width: 640px; margin: 0 auto; }
+h3 { margin: 22px 0 8px; font-size: 16px; }
+
+/* ---------- Tarjetas de totales ---------- */
+.tarjetas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tarjeta {
+  background: #fff; border: 1px solid var(--borde); border-radius: 14px; padding: 12px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.tarjeta span { font-size: 13px; color: var(--gris); }
+.tarjeta strong { font-size: 18px; }
+.tarjeta.destacada { grid-column: 1 / -1; background: var(--verde-claro); border-color: transparent; }
+.tarjeta.destacada strong { font-size: 24px; }
+.negativo { color: var(--rojo); }
+
+/* ---------- Cargar con voz ---------- */
+.cargar { text-align: center; margin-top: 20px; }
+.btn-microfono {
+  width: 96px; height: 96px; border-radius: 50%; border: 0; font-size: 40px;
+  background: var(--verde); color: #fff; box-shadow: 0 6px 16px rgba(15, 118, 110, .35);
+}
+.btn-microfono.escuchando { background: var(--rojo); animation: latido 1s infinite; }
+@keyframes latido { 50% { transform: scale(1.08); } }
+.texto-voz { color: var(--gris); font-size: 14px; min-height: 40px; }
+.fila-texto { display: flex; gap: 8px; }
+
+/* ---------- Listas ---------- */
+.lista { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.item {
+  background: #fff; border: 1px solid var(--borde); border-radius: 12px; padding: 12px;
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+.item .izq { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.item .izq b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item small { color: var(--gris); }
+.item .der { text-align: right; white-space: nowrap; }
+.monto-ingreso { color: var(--verde); font-weight: bold; }
+.monto-gasto { color: var(--texto); font-weight: bold; }
+.fecha-grupo { font-size: 13px; color: var(--gris); margin: 10px 0 0; }
+
+.barra-progreso { height: 6px; background: var(--borde); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+.barra-progreso div { height: 100%; background: var(--verde); }
+.barra-progreso div.pasado { background: var(--rojo); }
+
+.deuda { flex-direction: column; align-items: stretch; }
+.deuda .fila { display: flex; justify-content: space-between; font-size: 14px; }
+.deuda button { margin-top: 8px; }
+
+.plan-bajo { background: var(--rojo-claro); border-color: transparent; }
+.plan-medio { background: #ffedd5; border-color: transparent; }
+
+/* ---------- Pestañas inferiores ---------- */
+.pestanas {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 5;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: #fff; border-top: 1px solid var(--borde);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.pestanas button {
+  background: none; border: 0; padding: 8px 0; font-size: 20px;
+  display: flex; flex-direction: column; align-items: center; color: var(--gris);
+}
+.pestanas button span { font-size: 11px; margin-top: 2px; }
+.pestanas button.activa { color: var(--verde); }
+
+/* ---------- Ventana modal ---------- */
+.modal {
+  position: fixed; inset: 0; z-index: 10; background: rgba(0, 0, 0, .4);
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.modal-caja {
+  background: #fff; width: 100%; max-width: 520px; border-radius: 18px 18px 0 0;
+  padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+  display: flex; flex-direction: column; gap: 12px; max-height: 92vh; overflow: auto;
+}
+.modal-caja h3 { margin: 0; }
+.fila-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fila-botones { display: flex; gap: 8px; justify-content: flex-end; }
+
+/* ---------- Aviso ---------- */
+.aviso {
+  position: fixed; left: 16px; right: 16px; bottom: 84px; z-index: 20;
+  background: #111827; color: #fff; padding: 12px 14px; border-radius: 10px; text-align: center;
+}
+#vista-deudas > .tarjeta { margin-bottom: 12px; }

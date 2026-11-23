@@ -1,0 +1,16 @@
+MIS GASTOS – app para el celular
+================================
+Archivos de la app (se suben a GitHub):
+  index.html            pantallas de la app
+  estilos.css           colores y diseño (Arial)
+  app.js                lógica: conexión, pantallas, voz, guardar
+  interpretar.js        entiende frases como "50 mil de combustible"
+  manifest.webmanifest  nombre e ícono para instalarla
+  sw.js                 hace que abra rápido y se pueda instalar
+  icons/                íconos de la app
+
+Base de datos (se ejecuta en Supabase > SQL Editor, en este orden):
+  supabase/01_base_de_datos.sql   crea el esquema "finanzas"
+  supabase/02_datos_iniciales.sql carga tus datos reales
+
+La guía completa paso a paso está en el documento "Mis Gastos – Guía paso a paso".

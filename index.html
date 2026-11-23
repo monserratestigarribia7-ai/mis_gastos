@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <title>Mis Gastos</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icono-192.png">
+  <link rel="apple-touch-icon" href="icons/icono-192.png">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <!-- ============ PANTALLA 1: CONFIGURACIÓN (solo la primera vez) ============ -->
+  <section id="pantalla-config" class="pantalla oculto">
+    <div class="caja-centro">
+      <h1>Mis Gastos</h1>
+      <p class="ayuda">Primera vez: pegá los datos de tu proyecto de Supabase
+        (Project Settings → API).</p>
+      <label>Project URL
+        <input id="cfg-url" type="url" placeholder="https://xxxx.supabase.co" autocomplete="off">
+      </label>
+      <label>Clave pública (anon / publishable key)
+        <input id="cfg-key" type="text" placeholder="eyJhbGciOi..." autocomplete="off">
+      </label>
+      <button id="cfg-guardar" class="btn-primario">Guardar</button>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 2: INICIAR SESIÓN ============ -->
+  <section id="pantalla-login" class="pantalla oculto">
+    <div class="caja-centro">
+      <h1>Mis Gastos</h1>
+      <label>Correo
+        <input id="login-email" type="email" autocomplete="email">
+      </label>
+      <label>Contraseña
+        <input id="login-pass" type="password" autocomplete="current-password">
+      </label>
+      <button id="login-entrar" class="btn-primario">Entrar</button>
+      <p id="login-error" class="error"></p>
+      <button id="login-reconfig" class="btn-link">Cambiar datos de Supabase</button>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA 3: LA APP ============ -->
+  <section id="pantalla-app" class="pantalla oculto">
+    <header class="barra">
+      <button id="mes-ant" class="btn-icono" aria-label="Mes anterior">‹</button>
+      <h2 id="mes-titulo">—</h2>
+      <button id="mes-sig" class="btn-icono" aria-label="Mes siguiente">›</button>
+    </header>
+
+    <main>
+      <!-- INICIO -->
+      <div id="vista-inicio" class="vista">
+        <div class="tarjetas">
+          <div class="tarjeta"><span>Ingresos</span><strong id="tot-ingresos">—</strong></div>
+          <div class="tarjeta"><span>Gastos</span><strong id="tot-gastos">—</strong></div>
+          <div class="tarjeta destacada"><span>Saldo del mes</span><strong id="tot-saldo">—</strong></div>
+        </div>
+
+        <div class="cargar">
+          <button id="btn-microfono" class="btn-microfono" aria-label="Cargar con la voz">🎤</button>
+          <p id="texto-voz" class="texto-voz">Tocá el micrófono y decí, por ejemplo:<br>
+            <em>"50 mil de combustible"</em></p>
+          <div class="fila-texto">
+            <input id="entrada-texto" type="text" placeholder="o escribí: 35 mil almuerzo">
+            <button id="btn-texto" class="btn-primario chico">Cargar</button>
+          </div>
+        </div>
+
+        <h3>Por categoría</h3>
+        <ul id="lista-categorias" class="lista"></ul>
+      </div>
+
+      <!-- MOVIMIENTOS -->
+      <div id="vista-movimientos" class="vista oculto">
+        <button id="btn-nuevo" class="btn-primario ancho">+ Nuevo movimiento</button>
+        <ul id="lista-movimientos" class="lista"></ul>
+      </div>
+
+      <!-- DEUDAS -->
+      <div id="vista-deudas" class="vista oculto">
+        <div class="tarjeta destacada"><span>Te falta pagar en total</span><strong id="tot-deudas">—</strong></div>
+        <ul id="lista-deudas" class="lista"></ul>
+      </div>
+
+      <!-- PLAN -->
+      <div id="vista-plan" class="vista oculto">
+        <p class="ayuda">Lo que te queda cada mes: sueldo + extras − gastos fijos − cuotas
+          (sin contar comida ni pasajes).</p>
+        <ul id="lista-plan" class="lista"></ul>
+      </div>
+    </main>
+
+    <nav class="pestanas">
+      <button data-vista="inicio" class="activa">🏠<span>Inicio</span></button>
+      <button data-vista="movimientos">📋<span>Movimientos</span></button>
+      <button data-vista="deudas">💳<span>Deudas</span></button>
+      <button data-vista="plan">📈<span>Plan</span></button>
+    </nav>
+  </section>
+
+  <!-- ============ VENTANA: CONFIRMAR / EDITAR MOVIMIENTO ============ -->
+  <div id="modal" class="modal oculto">
+    <div class="modal-caja">
+      <h3 id="modal-titulo">Nuevo movimiento</h3>
+      <label>Monto (₲)
+        <input id="m-monto" type="text" inputmode="numeric">
+      </label>
+      <label>Descripción
+        <input id="m-desc" type="text">
+      </label>
+      <div class="fila-2">
+        <label>Tipo
+          <select id="m-tipo"><option>Gasto</option><option>Ingreso</option></select>
+        </label>
+        <label>Fecha
+          <input id="m-fecha" type="date">
+        </label>
+      </div>
+      <label>Categoría
+        <select id="m-categoria"></select>
+      </label>
+      <label class="check"><input id="m-pagado" type="checkbox"> Pagado / cobrado</label>
+      <div class="fila-botones">
+        <button id="m-borrar" class="btn-peligro oculto">Borrar</button>
+        <button id="m-cancelar" class="btn-secundario">Cancelar</button>
+        <button id="m-guardar" class="btn-primario">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="aviso" class="aviso oculto"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="interpretar.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
